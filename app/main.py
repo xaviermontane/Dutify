@@ -1,7 +1,9 @@
-from utils import *
-from models import Task
+from models import *
 
-start_menu()
+Menu.start(self)
+
+
+global menu
 menu = True
 selection = int(input("\nWhat would you like to do?: "))  # Try to catch errors for invalid input
 task_list = []
@@ -10,18 +12,24 @@ task_list = []
 # Menu selection logic
 while menu:
     if selection == 1:
-        name = input("Task name/desc: ")
-        deadline = float(input("Deadline: "))
-        task_id = int(input("ID: "))
-        newTask = Task(name, deadline, task_id)
-        task_list.append(newTask)
-    if selection == 2:
-        for i in task_list():
-            print(task_list[i])
-    if selection == 3:
-        pass
-    if selection == 4:
-        exit()
+        task = Task(input("Enter task description: "), input("Enter task deadline: "))
+        task_list.append(task)
+        print("Task added!")
+    elif selection == 2:
+        for task in task_list:
+            print(task)
+    elif selection == 3:
+        task_id = int(input("Enter task ID to remove: "))
+        for task in task_list:
+            if task.id == task_id:
+                task_list.remove(task)
+                print("Task removed!")
+                break
+        else:
+            print("Task not found!")
+    elif selection == 4:
+        print("Goodbye!")
+        menu = False
     else:
-        selection = int(input("\nInvalid input! Please select a valid option: "))
-        
+        print("Invalid selection!")
+    selection = int(input("\nWhat would you like to do?: "))
