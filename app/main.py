@@ -1,35 +1,39 @@
-from models import *
+from os import system as sys
+from .models import Task, Menu
 
-Menu.start(self)
-
-
-global menu
-menu = True
-selection = int(input("\nWhat would you like to do?: "))  # Try to catch errors for invalid input
 task_list = []
 
-
 # Menu selection logic
-while menu:
-    if selection == 1:
-        task = Task(input("Enter task description: "), input("Enter task deadline: "))
-        task_list.append(task)
-        print("Task added!")
-    elif selection == 2:
-        for task in task_list:
-            print(task)
-    elif selection == 3:
-        task_id = int(input("Enter task ID to remove: "))
-        for task in task_list:
-            if task.id == task_id:
-                task_list.remove(task)
-                print("Task removed!")
-                break
+while Menu(True):
+    call = Menu(...) # Placeholder for menu object
+    if Menu(1, ..., 1):
+        call.start_menu()
+        name = input("Task name: ")
+        deadline = float(input("Deadline: "))
+        task_id = int(input("ID: "))
+        task_list.append(Task(name, deadline, task_id))
+    elif Menu(1, ..., 2):
+        Task.display(...)
+    elif Menu(1, ..., 3):
+        Menu(status=2)
+        continue
+    elif Menu(1, ..., 4):
+            exit()
+
+    if Menu(status=2):
+        call.pause_menu()
+        if Menu(..., ..., 1):
+            #settings.exe()
+            pass
+        if Menu(..., ..., 2):
+            #save.exe()
+            pass
+        if Menu(..., ..., 3):
+            sys.exit()
         else:
-            print("Task not found!")
-    elif selection == 4:
-        print("Goodbye!")
-        menu = False
-    else:
-        print("Invalid selection!")
-    selection = int(input("\nWhat would you like to do?: "))
+            selection = int(input("\nInvalid input! Please select a valid option: "))
+
+# Display tasks
+def display_tasks():
+    for task in task_list:
+        print(task.display())
