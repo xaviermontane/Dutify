@@ -1,17 +1,22 @@
 from random import randint as rint
 
 class Task:
-    def __init__(self, description, deadline=None, task_id=rint(0, 100), completed=False):
-        self.description = description
+    def __init__(self, name, deadline=None, task_id=rint(0, 100), completed=False, list={}):
+        self.name = name
         self.deadline = deadline
         self.task_id = task_id
         self.completed = completed
+        self.list = list
 
-    def display(self): # This method is called when you print an object
-        name = self.__class__.__name__
-        description = self.description
-        deadline = self.deadline
-        return f"{name}({description} | {deadline} | {self.task_id} | {self.completed})"
+    def display(self, task, task_id=None): # This method is called when you print an object
+        display_all = input("Would you like to display all tasks? (y/n): ")
+        if display_all.lower() == "y":
+            self.list[self.task_id] = {
+                "description": self.description,
+                "deadline": self.deadline,
+                "completed": self.completed
+            }
+
     
 class Menu:
     def __init__(self, status, options={}, selection=None):

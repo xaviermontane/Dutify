@@ -1,7 +1,7 @@
 from os import system as sys
 from .models import Task, Menu
 
-task_list = []
+global task_list
 
 # Menu selection logic
 while Menu(True):
@@ -9,11 +9,11 @@ while Menu(True):
     if Menu(1, ..., 1):
         call.start_menu()
         name = input("Task name: ")
-        deadline = float(input("Deadline: "))
-        task_id = int(input("ID: "))
-        task_list.append(Task(name, deadline, task_id))
+        deadline = float(input("Deadline (MM.DD.YY): "))
+        task_id = int(input("ID (default is randint): "))
+        task_list.append(Task.display(name, deadline, task_id))
     elif Menu(1, ..., 2):
-        Task.display(...)
+        Task.display()
     elif Menu(1, ..., 3):
         Menu(status=2)
         continue
@@ -31,9 +31,23 @@ while Menu(True):
         if Menu(..., ..., 3):
             sys.exit()
         else:
-            selection = int(input("\nInvalid input! Please select a valid option: "))
+            selection = int(input("\nInvalid input! Please select a valid option: ")
 
 # Display tasks
 def display_tasks():
-    for task in task_list:
-        print(task.display())
+    display_all = input("Would you like to display all tasks? (y/n): ")
+    if display_all.lower() == "y":
+        display_all = True
+    elif display_all.lower() == "n":
+        display_all = False
+        id_query = input("Enter the task ID to be found: ")
+        for x in task_list:
+            if x.task_id == id_query:
+                print(Task.display(x))
+            else:
+                print("Task not found!")
+    else:
+        print("Invalid input! Please enter 'y' or 'n'")
+        display_tasks()
+
+# Display func might be redundant 
