@@ -1,5 +1,5 @@
 import sqlite3
-from app.models import Task
+from models import Task
 
 # task = Task(None)   # Task object call
 
