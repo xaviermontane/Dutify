@@ -8,27 +8,35 @@ class Task:
         self.completed = completed
 
 class Menu:
-    def __init__(self, status=None, options=None):
+    def __init__(self, login=True, status=0, options=None):
+        self.login = login
         self.status = status
         self.options = options
 
-    def start_menu(self, login=bool):
+    def pause_menu(self):
+        self.status = 0
+        print("Menu:\n")
+        self.display()
+        self.get_selection()
+
+    def start_menu(self, login):
         self.status = 1
         self.login = login
         print("\nWelcome to Dutify, a terminal based to do list application.")
-        choice = input("Would you like to login to an existing user account? (Y/N): ")
+        choice = input("\nWould you like to login to an existing user account? (Y/N): ")
         if choice.upper() == "Y":
-            self.login = True
+            login = True
         elif choice.upper() == "N":
-            self.login = False
+            login = False
         else:
             while choice.upper() != "Y" and choice.upper() != "N":
-                print("Invalid option! Please enter 'Y' or 'N'")
+                print("Invalid option! Please enter 'Y' or 'N'\n")
                 choice = input("Would you like to login to an existing user account? (Y/N): ")
+                continue
         self.display()
         return self.get_selection()
-
-    def pause_menu(self):
+    
+    def main_menu(self):
         self.status = 2
         print("Menu:\n")
         self.display()

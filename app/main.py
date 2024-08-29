@@ -7,32 +7,53 @@ task = Task()
 call = Menu()
 
 def login(user, pswd):
-    f = open("app/credentials.txt", "r")
-    if user == "guest" and pswd == "guest":
-        print(f"Login successful! Welcome, {user}.")
-    elif user == f.readline() and pswd == f.readline():
-        print(f"Login successful! Welcome, {user}.")
-    else:
-        print("Invalid credentials. Please try again.")
-    f.close()
+    with open("app/credentials.txt", "r") as f:
+        for line in f:
+            usr, pwd = line.split(", ")
+            if user.strip() == usr.strip() and pwd.strip() == pswd.strip(): 
+                print(f"Login successful! Welcome, {user}.")
+                return
+        if user == "guest" and pswd == "guest":
+            print(f"Login successful! Welcome, {user}.")
+        else:
+            print("Invalid credentials. Please try again.")
+
+# Search bar equivalent
+# def database_search():
+#     pass
+
+try:
+    db.connect()
+    db.create_table()
+except Exception as e:
+    print(f"Error connecting to database services: {e}")
+    sys.exit()
+
+# Login logic
+call.start_menu(True)
+
+if call.login == True:
+    user = input("Enter your username: ")
+    pswd = input("Enter your password: ")
+    login(user, pswd)
+elif call.login == False:
+    new_account = input("Do you want to login to a new account? (Y/N): ")
+    if new_account.upper() == "Y":
+        user = input("New username: ")
+        pswd = input("New password: ")
+        with open("app/credentials.txt", "a") as f:
+            f.write(f"{user}, {pswd}\n")
+            login(user, pswd)
+            print("User account created successfully!")
+    elif new_account.upper() == "N":
+        login("guest", "guest")
+        print("No user account was created. You are logged in as a guest.")
+else:
+    login("guest", "guest")
+    print("You are logged in as a guest.")
 
 # Menu selection logic
-while True:
-    try:
-        db.connect()
-        db.create_table()
-    except Exception as e:
-        print(f"Error connecting to database services: {e}")
-        break
-
-    if call.start_menu() == True:
-        user = input("Enter your username: ")
-        pswd = input("Enter your password: ")
-        login(user, pswd)
-    else:
-        print("Invalid status")
-        break
-
+while call.status > 0:
     selection = call.get_selection()
     if selection == 1:
         db.add_task(task)
@@ -60,7 +81,3 @@ while True:
     else:
         print("Invalid input! Please select a valid option.")
         continue
-
-# Search bar equivalent
-def database_search():
-    pass
