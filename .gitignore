@@ -3,8 +3,8 @@ __pycache__/
 *.pyc
 
 # Ignore test files
-tests/
-test_*.py
+test/
+*-tst.py
 
 # Ignore IDE files
 .vscode/
